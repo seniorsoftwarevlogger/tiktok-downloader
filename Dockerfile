@@ -9,6 +9,4 @@ RUN python3 -m playwright install
 
 COPY . .
 
-EXPOSE 8080
-
-ENTRYPOINT ["python3", "server.py", "8080", "0.0.0.0"]
+ENTRYPOINT ["python3", "bot.py"]
