@@ -32,10 +32,10 @@ async def main():
             try:
                 update = next(m for m in updates if from_admin(m))
             except StopIteration:
-                exit
+                return
 
             if not re.match("https://vm.tiktok.com/.*/", update.message.text):
-                exit
+                return
 
             # Resolve full tiktok URL
             print(update.message.text)
@@ -56,11 +56,15 @@ async def main():
                         'desc'] + "\n\n" + update.message.text + "\n\n@git_rebase"
 
                     await bot.send_video(os.environ.get('CHANNEL_ID'), video_data, caption=caption)
+                    # send reaction that we are cool
+                    await update.message.reply_text('👍 отправил', quote=True)
 
                     # confirm the update so that we don't fetch twice
                     await bot.get_updates(offset=update.update_id + 1)
                 else:
                     # Got access denied
+                    await update.message.reply_text('🤕 ошибка', quote=True)
+
                     print(video_data)
 
 
